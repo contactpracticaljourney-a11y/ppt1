@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASIC ELECTRONICS PPT - Created by Varun Jangra</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            terracotta: '#9A5B3D',
+                            terracottaDark: '#78422A',
+                            warmStone: '#EAE3D2',
+                            champagne: '#F4F1EA',
+                            darkOlive: '#131514',
+                            slateCard: '#1C1F1D',
+                            cardBorder: 'rgba(234, 227, 210, 0.14)',
+                            goldAccent: '#D4AF37',
+                            mutedGold: 'rgba(212, 175, 55, 0.3)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0E100F;
+            color: #EAE3D2;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .text-serif-title {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-editorial {
+            background: rgba(28, 31, 29, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(234, 227, 210, 0.16);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+        }
+
+        .glass-calculator {
+            background: rgba(19, 21, 20, 0.92);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Intersection Observer Animation Utility Classes */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-element.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-left.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-right.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .zoom-in-element {
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .zoom-in-element.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0E100F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #322A26;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9A5B3D;
+        }
+
+        /* Slide Deck View Logic */
+        .slide-pane {
+            transition: all 0.5s ease-in-out;
+        }
+
+        .slide-mode-active .slide-pane {
+            display: none;
+        }
+
+        .slide-mode-active .slide-pane.current-slide {
+            display: block;
+            animation: fadeInSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-terracotta selection:text-white">
+
+    <!-- Sticky Top Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-editorial border-b border-brand-cardBorder px-4 sm:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Brand Badge & Title -->
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-mono font-bold uppercase tracking-widest px-3 py-1 bg-brand-terracotta/30 text-brand-goldAccent border border-brand-goldAccent/40 rounded-full">PPT</span>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-serif-title tracking-wide text-brand-champagne">BASIC ELECTRONICS PPT</h1>
+                    <p class="text-[11px] text-brand-goldAccent tracking-wider uppercase font-semibold">Created by Varun Jangra</p>
+                </div>
+            </div>
+
+            <!-- View Mode Switcher Controls -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <button id="viewToggleBtn" onclick="toggleDeckView()" class="px-4 py-1.5 rounded-full border border-brand-goldAccent/50 text-brand-champagne text-xs font-medium hover:bg-brand-terracotta hover:border-brand-terracotta transition flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-layer-group text-brand-goldAccent"></i>
+                    <span id="viewToggleLabel">Switch to Slide Deck View</span>
+                </button>
+                <button onclick="toggleFullscreenMode()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-slateCard border border-brand-cardBorder text-brand-warmStone hover:text-white text-xs font-medium transition">
+                    <i class="fa-solid fa-expand text-brand-goldAccent"></i> Fullscreen
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Header Banner Section -->
+    <section class="min-h-[90vh] pt-32 pb-16 px-6 flex flex-col justify-center items-center text-center relative border-b border-brand-cardBorder overflow-hidden">
+        <!-- Background Hero Image Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=2000&auto=format&fit=crop" 
+                 onerror="handleImageError(this, 'Electrical Grid Substation')" 
+                 alt="Electricity Grid" 
+                 class="w-full h-full object-cover opacity-25 scale-105 transition-transform duration-1000">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0E100F] via-[#0E100F]/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto space-y-6 reveal-element">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 border border-brand-goldAccent/40 backdrop-blur-md">
+                <i class="fa-solid fa-bolt text-brand-goldAccent text-xs"></i>
+                <span class="text-xs uppercase tracking-[0.25em] text-brand-goldAccent font-semibold">DHBVN UTILITY & POWER THEORY MASTERCLASS</span>
+            </div>
+            
+            <h1 class="text-5xl sm:text-7xl lg:text-8xl font-normal text-serif-title text-brand-champagne leading-tight tracking-tight drop-shadow-2xl">
+                BASIC ELECTRONICS PPT
+            </h1>
+            
+            <div class="space-y-1">
+                <p class="text-2xl sm:text-4xl text-brand-goldAccent font-serif italic">
+                    Created by Varun Jangra
+                </p>
+                <p class="text-xs text-brand-warmStone/70 uppercase tracking-widest pt-2">Comprehensive Bill Breakdown & Dynamic Formula Calculators</p>
+            </div>
+
+            <div class="w-24 h-[1px] bg-brand-terracotta mx-auto my-6"></div>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#slide-1" class="px-8 py-3.5 rounded-full bg-brand-terracotta hover:bg-brand-terracottaDark text-brand-champagne font-medium text-sm transition-all shadow-xl shadow-brand-terracotta/30 flex items-center gap-3">
+                    Explore Deck <i class="fa-solid fa-arrow-down text-xs"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Animated Scroll Prompt -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-brand-warmStone/50 text-xs tracking-widest uppercase z-10">
+            <span>Scroll To Begin</span>
+            <i class="fa-solid fa-chevron-down animate-bounce text-brand-goldAccent"></i>
+        </div>
+    </section>
+
+    <!-- Sticky Deck Controller (Shown in Slide Mode or Sticky on Scroll) -->
+    <div id="stickySlideDeckBar" class="sticky top-[68px] z-40 bg-brand-darkOlive/95 backdrop-blur-md border-b border-brand-cardBorder py-3 px-6 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <button onclick="navigateSlide(-1)" class="px-4 py-2 rounded-xl bg-brand-slateCard border border-brand-cardBorder text-brand-champagne text-xs hover:bg-brand-terracotta transition flex items-center gap-2">
+                <i class="fa-solid fa-chevron-left"></i> Prev Slide
+            </button>
+            
+            <div class="flex items-center gap-3">
+                <span id="deckCounterLabel" class="text-xs text-brand-goldAccent font-mono uppercase tracking-wider font-bold">Slide 1 of 8</span>
+                <div id="slideDotsNav" class="hidden md:flex gap-1.5"></div>
+            </div>
+
+            <button onclick="navigateSlide(1)" class="px-4 py-2 rounded-xl bg-brand-slateCard border border-brand-cardBorder text-brand-champagne text-xs hover:bg-brand-terracotta transition flex items-center gap-2">
+                Next Slide <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN PRESENTATION BODY CONTAINER -->
+    <main id="presentationContainer" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-24 w-full">
+
+        <!-- ================= SLIDE 1 ================= -->
+        <div class="slide-pane" id="slide-1" data-slide-index="1">
+            <section class="glass-editorial rounded-3xl p-8 sm:p-12 relative overflow-hidden reveal-element">
+                <div class="flex items-center justify-between border-b border-brand-cardBorder pb-6 mb-8">
+                    <div class="flex items-center gap-4">
+                        <span class="w-10 h-10 rounded-full bg-brand-terracotta/30 border border-brand-terracotta flex items-center justify-center text-brand-goldAccent font-serif font-bold text-xl">1</span>
+                        <div>
+                            <h1 class="text-3xl sm:text-5xl font-normal text-serif-title text-brand-champagne">What is Written Inside The Bill</h1>
+                            <p class="text-xs text-brand-goldAccent tracking-widest uppercase mt-1">BASIC ELECTRONICS PPT &bull; Varun Jangra</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Image Banner -->
+                <div class="mb-8 rounded-2xl overflow-hidden relative h-56 border border-brand-cardBorder shadow-2xl zoom-in-element">
+                    <img src="https://images.unsplash.com/photo-1544724569-5f546fd6f2b5?q=80&w=1200&auto=format&fit=crop" 
+                         onerror="handleImageError(this, 'Smart Electricity Meter')" 
+                         alt="Digital Electricity Meter" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-darkOlive via-brand-darkOlive/50 to-transparent p-6 flex items-end">
+                        <p class="text-sm sm:text-base text-brand-warmStone font-serif italic">Line-by-line itemization of electricity billing parameters and surcharges.</p>
+                    </div>
+                </div>
+
+                <!-- VERBATIM TEXT LIST ITEMIZATION -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-brand-warmStone">
+                    <ul class="space-y-3 text-base sm:text-lg font-light">
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-receipt text-brand-goldAccent text-sm"></i>
+                            <span>Previous Vs Current Reading</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-bolt text-brand-goldAccent text-sm"></i>
+                            <span>KWH (current - Previous Reading)</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-chart-line text-brand-goldAccent text-sm"></i>
+                            <span>KW (DHBVN Compares the load)</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-network-wired text-brand-goldAccent text-sm"></i>
+                            <span>KVA (Total Load Capacity carried by wires & Trasformers)</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-plug text-brand-goldAccent text-sm"></i>
+                            <span>KVAH</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-calculator text-brand-goldAccent text-sm"></i>
+                            <span>MF</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-indian-rupee-sign text-brand-goldAccent text-sm"></i>
+                            <span>Fixed charges, Energy charges</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-scale-balanced text-brand-goldAccent text-sm"></i>
+                            <span>ATM To Cover MMC</span>
+                        </li>
+                    </ul>
+
+                    <ul class="space-y-3 text-base sm:text-lg font-light">
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-gas-pump text-brand-terracotta text-sm"></i>
+                            <span>Fuel Surcharge</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-triangle-exclamation text-brand-terracotta text-sm"></i>
+                            <span>Excess Load Surcharge</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-wrench text-brand-terracotta text-sm"></i>
+                            <span>MeterService charge , line servicecharge</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-solar-panel text-brand-goldAccent text-sm"></i>
+                            <span>Solar Rebate , Gaushala Reate</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-industry text-brand-terracotta text-sm"></i>
+                            <span>Capacitor Surcharge, Electricity Duty</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-building text-brand-terracotta text-sm"></i>
+                            <span>Muncipal Tax, Govt Subsidy</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-file-invoice-dollar text-brand-goldAccent text-sm"></i>
+                            <span>TDS ,TCS</span>
+                        </li>
+                        <li class="p-3.5 rounded-xl bg-brand-darkOlive/90 border border-brand-cardBorder flex items-center gap-3">
+                            <i class="fa-solid fa-coins text-brand-warmStone text-sm"></i>
+                            <span>Non Energy Charges</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= SLIDE 2 ================= -->
+        <div class="slide-pane" id="slide-2" data-slide-index="2">
+            <section class="glass-editorial rounded-3xl p-8 sm:p-12 relative overflow-hidden reveal-element">
+                <div class="flex items-center gap-4 mb-8 border-b border-brand-cardBorder pb-6">
+                    <span class="w-10 h-10 rounded-full bg-brand-terracotta/30 border border-brand-terracotta flex items-center justify-center text-brand-goldAccent font-serif font-bold text-xl">2</span>
+                    <ol class="text-3xl sm:text-4xl font-normal text-serif-title text-brand-champagne"><b>Important Things To know</b></ol>
+                </div>
+
+                <div class="mb-8 rounded-2xl overflow-hidden h-52 border border-brand-cardBorder relative zoom-in-element">
+                    <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1200&auto=format&fit=crop" 
+                         onerror="handleImageError(this, 'High Voltage Transmission Line')" 
+                         alt="Transmission Grid" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/60 flex items-center p-6">
+                        <h3 class="text-2xl font-serif text-brand-champagne">DHBVN Peak Load Monitoring & Penalty Surcharges</h3>
+                    </div>
+                </div>
+
+                <!-- VERBATIM OL ITEMS -->
+                <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 list-decimal list-inside text-brand-warmStone">
+                    <li class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder shadow-lg flex flex-col justify-between reveal-left">
+                        <div>
+                            <span class="text-xs text-brand-goldAccent uppercase tracking-widest font-mono block mb-2 font-bold">Rule 01</span>
+                            <span class="text-base font-light text-brand-champagne">DHBVN Keeps Monitor on Load Previous vs current</span>
+                        </div>
+                        <i class="fa-solid fa-chart-line text-3xl text-brand-goldAccent/30 self-end mt-4"></i>
+                    </li>
+                    <li class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder shadow-lg flex flex-col justify-between reveal-element">
+                        <div>
+                            <span class="text-xs text-brand-goldAccent uppercase tracking-widest font-mono block mb-2 font-bold">Rule 02</span>
+                            <span class="text-base font-light text-brand-champagne">Exceeds Peak Kw called Sanctioned Load</span>
+                        </div>
+                        <i class="fa-solid fa-gauge-high text-3xl text-brand-goldAccent/30 self-end mt-4"></i>
+                    </li>
+                    <li class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder shadow-lg flex flex-col justify-between reveal-right">
+                        <div>
+                            <span class="text-xs text-brand-terracotta uppercase tracking-widest font-mono block mb-2 font-bold">Rule 03</span>
+                            <span class="text-base font-light text-brand-champagne">Extra Charges For Extra Surcharges</span>
+                        </div>
+                        <i class="fa-solid fa-file-circle-exclamation text-3xl text-brand-terracotta/40 self-end mt-4"></i>
+                    </li>
+                </ol>
+            </section>
+        </div>
+
+        <!-- ================= SLIDE 3 ================= -->
+        <div class="slide-pane" id="slide-3" data-slide-index="3">
+            <section class="glass-editorial rounded-3xl p-8 sm:p-12 relative overflow-hidden reveal-element">
+                <div class="flex items-center gap-4 mb-8 border-b border-brand-cardBorder pb-6">
+                    <span class="w-10 h-10 rounded-full bg-brand-terracotta/30 border border-brand-terracotta flex items-center justify-center text-brand-goldAccent font-serif font-bold text-xl">3</span>
+                    <div>
+                        <h2 class="text-3xl sm:text-4xl font-serif text-serif-title text-brand-champagne">Difference Btw KVA and KW</h2>
+                        <p class="text-xs text-brand-goldAccent tracking-wider uppercase">Power Triangle Mathematics & PF Equations</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-8">
+                    <!-- VERBATIM TEXT HEADERS & FORMULAS -->
+                    <div class="space-y-3 text-brand-champagne">
+                        <h3 class="text-2xl font-serif text-brand-goldAccent">Same Dimension</h3>
+                        
+                        <div class="p-5 rounded-2xl bg-brand-terracotta/30 border border-brand-terracotta/60 text-brand-champagne font-mono text-xl shadow-inner">
+                            <h3>Formula<br>KW=KVA x PF </h3>
+                        </div>
+
+                        <div class="space-y-2.5 font-light text-base sm:text-lg">
+                            <div class="p-3.5 rounded-xl bg-brand-darkOlive/90 border-l-4 border-brand-goldAccent">
+                                <h3>KW is the Real power perform heat , motion light PF&lt;=1 </h3>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-brand-darkOlive/90 border-l-4 border-brand-terracotta">
+                                <h3>Kva is the Total load capacity carried by wires and Transformers</h3>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-brand-darkOlive/90 border-l-4 border-brand-warmStone">
+                                <h3>kva is independent of power factor</h3>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-brand-darkOlive/90 border-l-4 border-brand-goldAccent font-mono">
+                                <h3>Power Factor=KW/kVA</h3>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-brand-darkOlive/90 border-l-4 border-amber-500">
+                                <h3>PF&lt;=1.0 lagging inductive load</h3>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-brand-darkOlive/90 border-l-4 border-emerald-400 font-mono">
+                                <h3>KVA=(KW^2+kvar^2)^1/2</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Power Triangle Vector Visualizer -->
+                    <div class="flex flex-col items-center justify-center p-6 bg-brand-slateCard/90 rounded-2xl border border-brand-cardBorder">
+                        <div class="w-full h-44 mb-4 rounded-xl overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?q=80&w=800&auto=format&fit=crop" 
+                                 onerror="handleImageError(this, 'Power Factor Measuring Device')" 
+                                 alt="Power Factor Testing" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                                <span class="text-xs font-mono uppercase tracking-widest text-brand-goldAccent px-3 py-1 bg-black/80 rounded-full border border-brand-goldAccent/40">Vector Power Triangle Diagram</span>
+                            </div>
+                        </div>
+                        <canvas id="vectorCanvas" width="320" height="190" class="w-full max-w-xs rounded-xl bg-black/80 p-2 border border-brand-cardBorder"></canvas>
+                    </div>
+                </div>
+
+                <!-- CALCULATOR 1: REAL POWER & POWER FACTOR -->
+                <div class="glass-calculator rounded-2xl p-6 mt-8">
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b border-brand-cardBorder">
+                        <i class="fa-solid fa-calculator text-brand-goldAccent text-xl"></i>
+                        <h4 class="text-lg font-serif text-brand-champagne">CALCULATOR 1: Real Power (KW) & Power Factor (PF) Tool</h4>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Apparent Power (KVA)</label>
+                            <input type="number" id="c1_kva" value="100" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Power Factor (PF &le; 1.0)</label>
+                            <input type="number" id="c1_pf" value="0.85" step="0.05" max="1" min="0" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Real Power (KW)</label>
+                            <input type="number" id="c1_kw" value="85" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-black/60 rounded-xl text-center">
+                        <div>
+                            <span class="text-xs text-brand-warmStone/70 block">Calculated KW (KW = KVA &times; PF)</span>
+                            <span id="c1_res_kw" class="text-xl font-bold text-brand-goldAccent font-mono">85.00 KW</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-brand-warmStone/70 block">Calculated PF (PF = KW / KVA)</span>
+                            <span id="c1_res_pf" class="text-xl font-bold text-brand-terracotta font-mono">0.850</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CALCULATOR 2: KVA APPARENT VECTOR POWER -->
+                <div class="glass-calculator rounded-2xl p-6 mt-6">
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b border-brand-cardBorder">
+                        <i class="fa-solid fa-calculator text-brand-goldAccent text-xl"></i>
+                        <h4 class="text-lg font-serif text-brand-champagne">CALCULATOR 2: Apparent Vector Capacity [KVA = (KW² + kVAR²)^(1/2)]</h4>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Real Power (KW)</label>
+                            <input type="number" id="c2_kw" value="80" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Reactive Power (kVAR)</label>
+                            <input type="number" id="c2_kvar" value="60" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                    </div>
+                    <div class="p-4 bg-black/60 rounded-xl text-center">
+                        <span class="text-xs text-brand-warmStone/70 block">Total Vector Capacity (KVA)</span>
+                        <span id="c2_res_kva" class="text-2xl font-bold text-brand-goldAccent font-mono">100.00 KVA</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= SLIDE 4 ================= -->
+        <div class="slide-pane" id="slide-4" data-slide-index="4">
+            <section class="glass-editorial rounded-3xl p-8 sm:p-12 relative overflow-hidden reveal-element">
+                <div class="flex items-center gap-4 mb-8 border-b border-brand-cardBorder pb-6">
+                    <span class="w-10 h-10 rounded-full bg-brand-terracotta/30 border border-brand-terracotta flex items-center justify-center text-brand-goldAccent font-serif font-bold text-xl">4</span>
+                    <h1 class="text-3xl sm:text-5xl font-normal text-serif-title text-brand-champagne">Why base Charges Different</h1>
+                </div>
+
+                <div class="mb-8 rounded-2xl overflow-hidden h-56 border border-brand-cardBorder relative zoom-in-element">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop" 
+                         onerror="handleImageError(this, 'Industrial Induction Motors & Capacitor Banks')" 
+                         alt="Industrial Motors and Coils" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/60 flex items-center p-6">
+                        <p class="text-lg font-serif text-brand-champagne">Inductive Industrial Motors & Capacitor Bank Compensation</p>
+                    </div>
+                </div>
+
+                <!-- VERBATIM OL LIST ITEMS -->
+                <ol class="space-y-4 list-decimal list-inside text-brand-warmStone text-base sm:text-lg font-light mb-8">
+                    <li class="p-5 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder leading-relaxed reveal-element">
+                        <span class="font-normal text-brand-champagne">KVAR like motors fans coils have high inductance high KVAR and LOW PF &lt;=1 leads to more current requirement </span>
+                    </li>
+                    <li class="p-5 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder leading-relaxed reveal-element">
+                        <span class="font-normal text-brand-champagne">More inductive load in industry as compare to homes </span>
+                    </li>
+                    <li class="p-5 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder leading-relaxed reveal-element">
+                        <span class="font-normal text-brand-champagne">They have to Establishes Capacitor Bank to Bring Back the PF =1 else DHBVN charges Extra money </span>
+                    </li>
+                    <li class="p-5 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder leading-relaxed reveal-element">
+                        <span class="font-normal text-brand-champagne">Capacitor has PF &gt;=1 due to Current lead and voltage lags and in inductor currentb lags behind and voltage leads</span>
+                    </li>
+                    <li class="p-5 rounded-2xl bg-brand-darkOlive/95 border border-brand-goldAccent/50 font-mono text-brand-goldAccent text-xl font-bold reveal-element">
+                        <span class="font-sans text-brand-champagne font-medium">KVA=V*I/1000</span>
+                    </li>
+                </ol>
+
+                <!-- CALCULATOR 3: KVA LOAD -->
+                <div class="glass-calculator rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b border-brand-cardBorder">
+                        <i class="fa-solid fa-calculator text-brand-goldAccent text-xl"></i>
+                        <h4 class="text-lg font-serif text-brand-champagne">CALCULATOR 3: KVA Load Calculator [KVA = V &times; I / 1000]</h4>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Voltage (V in Volts)</label>
+                            <input type="number" id="c3_v" value="415" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Current (I in Amperes)</label>
+                            <input type="number" id="c3_i" value="200" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                    </div>
+                    <div class="p-4 bg-black/60 rounded-xl text-center">
+                        <span class="text-xs text-brand-warmStone/70 block">Apparent Load Capacity (KVA = V &times; I / 1000)</span>
+                        <span id="c3_res_kva" class="text-2xl font-bold text-brand-goldAccent font-mono">83.00 KVA</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= SLIDE 5 ================= -->
+        <div class="slide-pane" id="slide-5" data-slide-index="5">
+            <section class="glass-editorial rounded-3xl p-8 sm:p-12 relative overflow-hidden reveal-element">
+                <div class="flex items-center gap-4 mb-8 border-b border-brand-cardBorder pb-6">
+                    <span class="w-10 h-10 rounded-full bg-brand-terracotta/30 border border-brand-terracotta flex items-center justify-center text-brand-goldAccent font-serif font-bold text-xl">5</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif text-serif-title text-brand-champagne">Domestic Residentials vs Industrial Tariffs</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <!-- VERBATIM TABLE STRUCTURE -->
+                    <div class="overflow-x-auto rounded-2xl border border-brand-cardBorder bg-brand-darkOlive/90 shadow-2xl">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-brand-terracotta/40 text-brand-champagne border-b border-brand-cardBorder font-serif text-lg">
+                                    <th class="p-5">Domeatic Residentials</th>
+                                    <th class="p-5">Non Domestic Industrial</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-brand-cardBorder text-brand-warmStone text-base font-light">
+                                <tr class="hover:bg-brand-slateCard/60 transition">
+                                    <td class="p-5">2.00 to 2.50 for lower usage</td>
+                                    <td class="p-5">6.50 to 6.90</td>
+                                </tr>
+                                <tr class="hover:bg-brand-slateCard/60 transition">
+                                    <td class="p-5">7.10 to 7.80 for higher usage</td>
+                                    <td class="p-5">Surcharges 110 to 175 </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Chart.js Visualization -->
+                    <div class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder shadow-xl">
+                        <h4 class="text-xs font-serif text-brand-goldAccent uppercase tracking-widest text-center mb-4">Tariff Comparison (₹ per unit)</h4>
+                        <div class="h-60 relative">
+                            <canvas id="tariffBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= SLIDE 6 ================= -->
+        <div class="slide-pane" id="slide-6" data-slide-index="6">
+            <section class="glass-editorial rounded-3xl p-8 sm:p-12 relative overflow-hidden reveal-element">
+                <div class="flex items-center gap-4 mb-8 border-b border-brand-cardBorder pb-6">
+                    <span class="w-10 h-10 rounded-full bg-brand-terracotta/30 border border-brand-terracotta flex items-center justify-center text-brand-goldAccent font-serif font-bold text-xl">6</span>
+                    <h1 class="text-3xl sm:text-5xl font-normal text-serif-title text-brand-champagne">MF Factor </h1>
+                </div>
+
+                <div class="mb-8 rounded-2xl overflow-hidden h-56 border border-brand-cardBorder relative zoom-in-element">
+                    <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=1200&auto=format&fit=crop" 
+                         onerror="handleImageError(this, 'CT / PT Instrument Transformers')" 
+                         alt="CTs and PTs Instrument Transformers" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/60 flex items-center p-6">
+                        <p class="text-lg font-serif text-brand-champagne">Current Transformers (CTs) & Potential Transformers (PTs) Step Down Principle</p>
+                    </div>
+                </div>
+
+                <!-- VERBATIM TEXT HEADERS -->
+                <div class="space-y-4 text-brand-warmStone font-light mb-8">
+                    <div class="p-5 rounded-2xl bg-brand-darkOlive/90 border border-brand-goldAccent/50 text-brand-goldAccent font-mono text-xl sm:text-2xl font-bold shadow-xl">
+                        <h3>Bill units= (current units - previous units)MF</h3>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-brand-darkOlive/80 border border-brand-cardBorder text-base sm:text-lg">
+                        <h3>Industry usea very high voltage and current which cannot be directly uses in meters so we make it step down multiple times and hence MF concept came </h3>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-brand-darkOlive/80 border border-brand-cardBorder text-base sm:text-lg">
+                        <h3>We uses low power in our homes so we uaes it directly anf our MF is 1 </h3>
+                    </div>
+                    <div class="p-5 rounded-2xl bg-brand-darkOlive/80 border border-brand-cardBorder text-base sm:text-lg text-brand-champagne flex items-center gap-3">
+                        <i class="fa-solid fa-microchip text-brand-goldAccent text-xl"></i>
+                        <h3>CTS and PTS are hence used to make Current and Potential Low</h3>
+                    </div>
+                </div>
+
+                <!-- CALCULATOR 4: MF FACTOR UNITS -->
+                <div class="glass-calculator rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b border-brand-cardBorder">
+                        <i class="fa-solid fa-calculator text-brand-goldAccent text-xl"></i>
+                        <h4 class="text-lg font-serif text-brand-champagne">CALCULATOR 4: Multiplier Factor (MF) Bill Units Tool</h4>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Previous Meter Reading</label>
+                            <input type="number" id="c4_prev" value="12000" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Current Meter Reading</label>
+                            <input type="number" id="c4_curr" value="13500" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Multiplying Factor (MF)</label>
+                            <input type="number" id="c4_mf" value="10" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                    </div>
+                    <div class="p-4 bg-black/60 rounded-xl text-center">
+                        <span class="text-xs text-brand-warmStone/70 block">Total Billed Units [ (Current - Previous) &times; MF ]</span>
+                        <span id="c4_res_units" class="text-2xl font-bold text-brand-goldAccent font-mono">15,000 Units</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= SLIDE 7 ================= -->
+        <div class="slide-pane" id="slide-7" data-slide-index="7">
+            <section class="glass-editorial rounded-3xl p-8 sm:p-12 relative overflow-hidden reveal-element">
+                <div class="flex items-center gap-4 mb-8 border-b border-brand-cardBorder pb-6">
+                    <span class="w-10 h-10 rounded-full bg-brand-terracotta/30 border border-brand-terracotta flex items-center justify-center text-brand-goldAccent font-serif font-bold text-xl">7</span>
+                    <h1 class="text-3xl sm:text-5xl font-normal text-serif-title text-brand-champagne">Fixed Charges</h1>
+                </div>
+
+                <div class="mb-8 rounded-2xl overflow-hidden h-56 border border-brand-cardBorder relative zoom-in-element">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop" 
+                         onerror="handleImageError(this, 'Electrical Substation Transformers')" 
+                         alt="Electric Substation Grid" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/60 flex items-center p-6">
+                        <p class="text-lg font-serif text-brand-champagne">Sanctioned Load Rate Calculations & Variable Consumption Charges</p>
+                    </div>
+                </div>
+
+                <!-- VERBATIM TEXT HEADERS -->
+                <div class="space-y-6 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-terracotta/40">
+                            <h3 class="text-xl font-mono text-brand-goldAccent mb-2 font-bold">Sanationed load * Rate per KW </h3>
+                            <p class="text-xs text-brand-warmStone/60">Fixed monthly demand assessment fee.</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-terracotta/40">
+                            <h3 class="text-xl font-mono text-brand-goldAccent mb-2 font-bold">Energy charges = KWH * Traffic rate per unit </h3>
+                            <p class="text-xs text-brand-warmStone/60">Variable energy tariff calculation per KWH.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-brand-cardBorder">
+                        <h1 class="text-3xl font-serif text-serif-title text-brand-champagne mb-4">Electricity Duty </h1>
+                        <div class="p-5 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder font-mono text-brand-warmStone text-base">
+                            <h3>rate 0.10 per unit, 0.08080 muncipal tax 0.47 surcharge fuel</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CALCULATOR 5: FIXED & ENERGY CHARGES -->
+                <div class="glass-calculator rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b border-brand-cardBorder">
+                        <i class="fa-solid fa-calculator text-brand-goldAccent text-xl"></i>
+                        <h4 class="text-lg font-serif text-brand-champagne">CALCULATOR 5: Fixed & Energy Charges Tool</h4>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Sanctioned Load (KW)</label>
+                            <input type="number" id="c5_load" value="10" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Rate per KW (₹)</label>
+                            <input type="number" id="c5_rate_kw" value="175" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">KWH Consumed</label>
+                            <input type="number" id="c5_kwh" value="450" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Tariff Rate/Unit (₹)</label>
+                            <input type="number" id="c5_tariff" value="6.50" step="0.1" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-black/60 rounded-xl text-center">
+                        <div>
+                            <span class="text-xs text-brand-warmStone/70 block">Fixed Charges (Load &times; Rate)</span>
+                            <span id="c5_res_fixed" class="text-lg font-bold text-brand-goldAccent font-mono">₹ 1,750.00</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-brand-warmStone/70 block">Energy Charges (KWH &times; Rate)</span>
+                            <span id="c5_res_energy" class="text-lg font-bold text-brand-goldAccent font-mono">₹ 2,925.00</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-brand-warmStone/70 block">Total Combined</span>
+                            <span id="c5_res_total" class="text-lg font-bold text-brand-terracotta font-mono">₹ 4,675.00</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= SLIDE 8 ================= -->
+        <div class="slide-pane" id="slide-8" data-slide-index="8">
+            <section class="glass-editorial rounded-3xl p-8 sm:p-12 relative overflow-hidden reveal-element">
+                <div class="flex items-center gap-4 mb-8 border-b border-brand-cardBorder pb-6">
+                    <span class="w-10 h-10 rounded-full bg-brand-terracotta/30 border border-brand-terracotta flex items-center justify-center text-brand-goldAccent font-serif font-bold text-xl">8</span>
+                    <h1 class="text-3xl sm:text-5xl font-normal text-serif-title text-brand-champagne"> Progressive Slab</h1>
+                </div>
+
+                <div class="mb-8 rounded-2xl overflow-hidden h-56 border border-brand-cardBorder relative zoom-in-element">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop" 
+                         onerror="handleImageError(this, 'Energy Network Data Concept')" 
+                         alt="Power Grid Technology" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/60 flex items-center p-6">
+                        <p class="text-lg font-serif text-brand-champagne">Slab Rates, Minimum Monthly Charge (MMC) & Annual Tax Thresholds</p>
+                    </div>
+                </div>
+
+                <!-- VERBATIM TEXT HEADERS -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder reveal-left">
+                        <span class="text-xs text-brand-goldAccent font-mono uppercase tracking-widest block mb-2 font-bold">Slab 01</span>
+                        <h3 class="text-lg font-medium text-brand-champagne"> First Slab 0-300 reading 2.75 to 2.95 per units</h3>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder reveal-element">
+                        <span class="text-xs text-brand-goldAccent font-mono uppercase tracking-widest block mb-2 font-bold">Slab 02</span>
+                        <h3 class="text-lg font-medium text-brand-champagne">Second Slab 301-500 0.25 per units</h3>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-brand-darkOlive/90 border border-brand-cardBorder reveal-right">
+                        <span class="text-xs text-brand-terracotta font-mono uppercase tracking-widest block mb-2 font-bold">Slab 03</span>
+                        <h3 class="text-lg font-medium text-brand-champagne">Higher Slab Above 500 units 16.45 to 7.10 </h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-brand-cardBorder mb-8">
+                    <div class="p-6 rounded-2xl bg-brand-darkOlive/80 border border-brand-cardBorder">
+                        <h1 class="text-2xl font-serif text-brand-champagne mb-3">ATM To Cover MMC</h1>
+                        <div class="p-4 bg-black/60 rounded-xl text-brand-goldAccent font-mono text-sm font-bold">
+                            <h3>ATM To MMC = Minimum Monthly Charge - Actual charge</h3>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-brand-darkOlive/80 border border-brand-cardBorder">
+                        <h3 class="text-2xl font-serif text-brand-champagne mb-3">Tax Audit Compliance</h3>
+                        <div class="p-4 bg-black/60 rounded-xl text-brand-warmStone text-sm font-light">
+                            <h3>TDS/TCS <br> Tax if bill exceed 50 lakhs per year </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CALCULATOR 6: ATM TO COVER MMC -->
+                <div class="glass-calculator rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4 pb-3 border-b border-brand-cardBorder">
+                        <i class="fa-solid fa-calculator text-brand-goldAccent text-xl"></i>
+                        <h4 class="text-lg font-serif text-brand-champagne">CALCULATOR 6: ATM To Cover MMC Calculator</h4>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Minimum Monthly Charge (MMC in ₹)</label>
+                            <input type="number" id="c6_mmc" value="500" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                        <div>
+                            <label class="text-xs text-brand-warmStone/70 block mb-1">Actual Energy Charge (₹)</label>
+                            <input type="number" id="c6_actual" value="320" class="w-full bg-brand-slateCard border border-brand-cardBorder rounded-lg p-2.5 text-brand-champagne text-sm focus:border-brand-goldAccent outline-none">
+                        </div>
+                    </div>
+                    <div class="p-4 bg-black/60 rounded-xl text-center">
+                        <span class="text-xs text-brand-warmStone/70 block">ATM To MMC Surcharge (MMC - Actual Charge)</span>
+                        <span id="c6_res_atm" class="text-2xl font-bold text-brand-goldAccent font-mono">₹ 180.00</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="mt-20 border-t border-brand-cardBorder bg-brand-darkOlive py-12 px-6 text-center">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <h2 class="text-3xl font-serif text-serif-title text-brand-champagne tracking-wide">BASIC ELECTRONICS PPT</h2>
+            <p class="text-sm text-brand-goldAccent uppercase tracking-widest font-semibold">Created by Varun Jangra</p>
+            <div class="w-16 h-[1px] bg-brand-terracotta mx-auto my-4"></div>
+            <p class="text-xs text-brand-warmStone/50 font-light">
+                Utility Electrical Theory & Master Formula Suite &bull; DHBVN Billing Analysis
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let isSlideMode = false;
+        let currentActiveSlide = 1;
+        const totalSlideCount = 8;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initScrollObserver();
+            initVectorCanvas();
+            initTariffChart();
+            bindAllCalculators();
+            buildSlideDotsNav();
+
+            // Keyboard Arrow Controls
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'Space') {
+                    navigateSlide(1);
+                } else if (e.key === 'ArrowLeft') {
+                    navigateSlide(-1);
+                }
+            });
+        });
+
+        // Automatic Image Fallback Handler (SVG Canvas)
+        function handleImageError(imgElement, labelText) {
+            const width = imgElement.clientWidth || 800;
+            const height = imgElement.clientHeight || 400;
+            const svgFallback = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 800 400" fill="none">
+                    <rect width="800" height="400" fill="#1A1D1B"/>
+                    <circle cx="400" cy="200" r="140" fill="#9A5B3D" opacity="0.15"/>
+                    <path d="M380 120 L350 220 L400 220 L370 300 L440 180 L390 180 Z" fill="#D4AF37"/>
+                    <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle" fill="#EAE3D2" font-family="sans-serif" font-size="18" font-weight="600" letter-spacing="2">${labelText.toUpperCase()}</text>
+                </svg>
+            `;
+            const encodedSvg = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgFallback);
+            imgElement.src = encodedSvg;
+            imgElement.onerror = null;
+        }
+
+        // IntersectionObserver Scroll-Driven Animations
+        function initScrollObserver() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -80px 0px',
+                threshold: 0.12
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        // Update active slide deck dot if scrolling normally
+                        if (!isSlideMode) {
+                            const slideIdx = entry.target.closest('.slide-pane')?.getAttribute('data-slide-index');
+                            if (slideIdx) {
+                                currentActiveSlide = parseInt(slideIdx);
+                                updateDeckUI();
+                            }
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-element, .reveal-left, .reveal-right, .zoom-in-element').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Slide Deck Navigation Bar Logic
+        function buildSlideDotsNav() {
+            const container = document.getElementById('slideDotsNav');
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 1; i <= totalSlideCount; i++) {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === 1 ? 'bg-brand-goldAccent scale-125' : 'bg-brand-warmStone/30 hover:bg-brand-warmStone/60'}`;
+                dot.onclick = () => jumpToSlide(i);
+                container.appendChild(dot);
+            }
+        }
+
+        function toggleDeckView() {
+            isSlideMode = !isSlideMode;
+            const container = document.body;
+            const label = document.getElementById('viewToggleLabel');
+
+            if (isSlideMode) {
+                container.classList.add('slide-mode-active');
+                label.innerText = "Switch to Scroll Page View";
+                showSlidePane(currentActiveSlide);
+            } else {
+                container.classList.remove('slide-mode-active');
+                label.innerText = "Switch to Slide Deck View";
+                // Reveal all slide panes
+                document.querySelectorAll('.slide-pane').forEach(el => {
+                    el.style.display = 'block';
+                });
+            }
+        }
+
+        function showSlidePane(slideIndex) {
+            const panes = document.querySelectorAll('.slide-pane');
+            panes.forEach(pane => {
+                const idx = parseInt(pane.getAttribute('data-slide-index'));
+                if (idx === slideIndex) {
+                    pane.classList.add('current-slide');
+                    pane.style.display = 'block';
+                } else {
+                    pane.classList.remove('current-slide');
+                    pane.style.display = 'none';
+                }
+            });
+            updateDeckUI();
+            document.getElementById('presentationContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function navigateSlide(direction) {
+            let nextIndex = currentActiveSlide + direction;
+            if (nextIndex < 1) nextIndex = 1;
+            if (nextIndex > totalSlideCount) nextIndex = totalSlideCount;
+
+            currentActiveSlide = nextIndex;
+            if (isSlideMode) {
+                showSlidePane(currentActiveSlide);
+            } else {
+                const targetSlide = document.getElementById(`slide-${currentActiveSlide}`);
+                if (targetSlide) {
+                    targetSlide.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+
+        function jumpToSlide(index) {
+            currentActiveSlide = index;
+            if (isSlideMode) {
+                showSlidePane(currentActiveSlide);
+            } else {
+                const targetSlide = document.getElementById(`slide-${currentActiveSlide}`);
+                if (targetSlide) {
+                    targetSlide.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+
+        function updateDeckUI() {
+            const label = document.getElementById('deckCounterLabel');
+            if (label) {
+                label.innerText = `Slide ${currentActiveSlide} of ${totalSlideCount}`;
+            }
+
+            const dots = document.querySelectorAll('#slideDotsNav button');
+            dots.forEach((dot, idx) => {
+                if (idx + 1 === currentActiveSlide) {
+                    dot.className = 'w-2.5 h-2.5 rounded-full transition-all bg-brand-goldAccent scale-125';
+                } else {
+                    dot.className = 'w-2.5 h-2.5 rounded-full transition-all bg-brand-warmStone/30 hover:bg-brand-warmStone/60';
+                }
+            });
+        }
+
+        function toggleFullscreenMode() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // Vector Triangle Diagram
+        function initVectorCanvas() {
+            const canvas = document.getElementById('vectorCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const x0 = 35, y0 = 150;
+            const x1 = 230, y1 = 150;
+            const x2 = 230, y2 = 35;
+
+            // Base KW (Real Power)
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x1, y1);
+            ctx.strokeStyle = '#D4AF37';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Vertical kVAR (Reactive Power)
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = '#9A5B3D';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Hypotenuse KVA (Apparent Power)
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = '#EAE3D2';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Labels
+            ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+            ctx.fillStyle = '#D4AF37';
+            ctx.fillText('KW (Real Power)', 85, 170);
+
+            ctx.fillStyle = '#9A5B3D';
+            ctx.fillText('kVAR', 238, 95);
+
+            ctx.fillStyle = '#EAE3D2';
+            ctx.fillText('kVA (Total Load Capacity)', 70, 80);
+        }
+
+        // Chart.js Bar Visualization
+        function initTariffChart() {
+            const ctx = document.getElementById('tariffBarChart');
+            if (!ctx) return;
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Domestic Low', 'Domestic High', 'Industrial Low', 'Industrial High'],
+                    datasets: [{
+                        label: 'Tariff Rate (₹/unit)',
+                        data: [2.25, 7.45, 6.70, 6.90],
+                        backgroundColor: [
+                            'rgba(212, 175, 55, 0.75)',
+                            'rgba(212, 175, 55, 0.95)',
+                            'rgba(154, 91, 61, 0.75)',
+                            'rgba(154, 91, 61, 0.95)'
+                        ],
+                        borderColor: ['#D4AF37', '#D4AF37', '#9A5B3D', '#9A5B3D'],
+                        borderWidth: 1.5,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(234, 227, 210, 0.08)' },
+                            ticks: { color: '#EAE3D2' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#EAE3D2', font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Formula Calculators Setup
+        function bindAllCalculators() {
+            // Calc 1: KW = KVA * PF
+            const c1_kva = document.getElementById('c1_kva');
+            const c1_pf = document.getElementById('c1_pf');
+            const c1_kw = document.getElementById('c1_kw');
+            const c1_res_kw = document.getElementById('c1_res_kw');
+            const c1_res_pf = document.getElementById('c1_res_pf');
+
+            function updateC1() {
+                const kva = parseFloat(c1_kva.value) || 0;
+                const pf = Math.min(Math.max(parseFloat(c1_pf.value) || 0, 0), 1);
+                const kw = parseFloat(c1_kw.value) || 0;
+
+                const calcKW = kva * pf;
+                const calcPF = kva > 0 ? (kw / kva) : 0;
+
+                c1_res_kw.innerText = calcKW.toFixed(2) + ' KW';
+                c1_res_pf.innerText = Math.min(calcPF, 1.0).toFixed(3);
+            }
+            [c1_kva, c1_pf, c1_kw].forEach(el => el.addEventListener('input', updateC1));
+
+            // Calc 2: KVA = (KW^2 + kVAR^2)^(1/2)
+            const c2_kw = document.getElementById('c2_kw');
+            const c2_kvar = document.getElementById('c2_kvar');
+            const c2_res_kva = document.getElementById('c2_res_kva');
+
+            function updateC2() {
+                const kw = parseFloat(c2_kw.value) || 0;
+                const kvar = parseFloat(c2_kvar.value) || 0;
+                const kva = Math.sqrt((kw * kw) + (kvar * kvar));
+                c2_res_kva.innerText = kva.toFixed(2) + ' KVA';
+            }
+            [c2_kw, c2_kvar].forEach(el => el.addEventListener('input', updateC2));
+
+            // Calc 3: KVA = V * I / 1000
+            const c3_v = document.getElementById('c3_v');
+            const c3_i = document.getElementById('c3_i');
+            const c3_res_kva = document.getElementById('c3_res_kva');
+
+            function updateC3() {
+                const v = parseFloat(c3_v.value) || 0;
+                const i = parseFloat(c3_i.value) || 0;
+                const kva = (v * i) / 1000;
+                c3_res_kva.innerText = kva.toFixed(2) + ' KVA';
+            }
+            [c3_v, c3_i].forEach(el => el.addEventListener('input', updateC3));
+
+            // Calc 4: Bill units = (current - previous) * MF
+            const c4_prev = document.getElementById('c4_prev');
+            const c4_curr = document.getElementById('c4_curr');
+            const c4_mf = document.getElementById('c4_mf');
+            const c4_res_units = document.getElementById('c4_res_units');
+
+            function updateC4() {
+                const prev = parseFloat(c4_prev.value) || 0;
+                const curr = parseFloat(c4_curr.value) || 0;
+                const mf = parseFloat(c4_mf.value) || 1;
+                const units = Math.max((curr - prev), 0) * mf;
+                c4_res_units.innerText = units.toLocaleString('en-IN') + ' Units';
+            }
+            [c4_prev, c4_curr, c4_mf].forEach(el => el.addEventListener('input', updateC4));
+
+            // Calc 5: Fixed & Energy Charges
+            const c5_load = document.getElementById('c5_load');
+            const c5_rate_kw = document.getElementById('c5_rate_kw');
+            const c5_kwh = document.getElementById('c5_kwh');
+            const c5_tariff = document.getElementById('c5_tariff');
+            const c5_res_fixed = document.getElementById('c5_res_fixed');
+            const c5_res_energy = document.getElementById('c5_res_energy');
+            const c5_res_total = document.getElementById('c5_res_total');
+
+            function updateC5() {
+                const load = parseFloat(c5_load.value) || 0;
+                const rateKw = parseFloat(c5_rate_kw.value) || 0;
+                const kwh = parseFloat(c5_kwh.value) || 0;
+                const tariff = parseFloat(c5_tariff.value) || 0;
+
+                const fixed = load * rateKw;
+                const energy = kwh * tariff;
+                const total = fixed + energy;
+
+                c5_res_fixed.innerText = '₹ ' + fixed.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                c5_res_energy.innerText = '₹ ' + energy.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                c5_res_total.innerText = '₹ ' + total.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            }
+            [c5_load, c5_rate_kw, c5_kwh, c5_tariff].forEach(el => el.addEventListener('input', updateC5));
+
+            // Calc 6: ATM to Cover MMC = MMC - Actual Charge
+            const c6_mmc = document.getElementById('c6_mmc');
+            const c6_actual = document.getElementById('c6_actual');
+            const c6_res_atm = document.getElementById('c6_res_atm');
+
+            function updateC6() {
+                const mmc = parseFloat(c6_mmc.value) || 0;
+                const actual = parseFloat(c6_actual.value) || 0;
+                const atm = Math.max(mmc - actual, 0);
+                c6_res_atm.innerText = '₹ ' + atm.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            }
+            [c6_mmc, c6_actual].forEach(el => el.addEventListener('input', updateC6));
+        }
+    </script>
+</body>
+</html>
